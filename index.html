@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICCC 320 – Data &amp; Networked Interaction Fall 2026</title>
+  <style>
+    :root {
+      --bg: #0d0d0d;
+      --surface: #1a1a1a;
+      --border: #2e2e2e;
+      --accent: #e8421a;
+      --text: #f0f0f0;
+      --muted: #888;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      min-height: 100vh;
+    }
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 2rem 2.5rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    header img { width: 56px; height: 56px; object-fit: contain; }
+    header h1 { font-size: 1.4rem; font-weight: 700; line-height: 1.3; }
+    header p { color: var(--muted); font-size: 0.9rem; margin-top: 0.25rem; }
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 4rem;
+    }
+    h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.15s, transform 0.1s;
+      display: block;
+    }
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .card .week-num {
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .card h3 { font-size: 1rem; font-weight: 600; }
+    .card .links {
+      margin-top: 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+    .card .links a {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.12s;
+    }
+    .card .links a:hover { color: var(--text); }
+    .card .links a::before { content: "→"; color: var(--accent); }
+    footer {
+      border-top: 1px solid var(--border);
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <img src="https://www.hanoverresearch.com/wp-content/uploads/2020/05/CALARTS-01.png" alt="CalArts" />
+  <div>
+    <h1>ICCC 320 – Data &amp; Networked Interaction</h1>
+    <p>California Institute of the Arts &nbsp;·&nbsp; Creative Computing &nbsp;·&nbsp; Fall 2026</p>
+  </div>
+</header>
+
+<main>
+  <h2>Course Schedule</h2>
+  <div class="grid" id="week-grid"></div>
+</main>
+
+<footer>
+  <a href="https://creativecomputing.calarts.edu/" target="_blank">Creative Computing at CalArts</a>
+  &nbsp;·&nbsp; ICCC 320 Fall 2026
+</footer>
+
+<script>
+  const weeks = [
+    "Introduction & Course Overview",
+    "Data Formats: JSON & APIs",
+    "Fetching Live Data",
+    "Event-Driven Programming",
+    "WebSockets & Real-Time Streams",
+    "Visualizing Data",
+    "Networked Interaction I",
+    "Networked Interaction II",
+    "Multi-Device Systems",
+    "Data Pipelines & Schemas",
+    "Critical Data Practice",
+    "Final Project Workshop"
+  ];
+
+  const grid = document.getElementById('week-grid');
+
+  weeks.forEach((title, i) => {
+    const n = String(i + 1).padStart(2, '0');
+    const folder = `Week-${n}`;
+    const card = document.createElement('a');
+    card.className = 'card';
+    card.href = `${folder}/index.html`;
+    card.innerHTML = `
+      <div class="week-num">Week ${n}</div>
+      <h3>${title}</h3>
+      <div class="links">
+        <a href="${folder}/In-Class/">In-Class Notes &amp; Code</a>
+        <a href="${folder}/Homework/">Homework</a>
+        <a href="${folder}/Resources/">Resources</a>
+      </div>`;
+    grid.appendChild(card);
+  });
+</script>
+
+</body>
+</html>
