@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ICCC 320 – Course Content</title>
+  <style>
+    :root { --bg:#0d0d0d; --surface:#1a1a1a; --border:#2e2e2e; --accent:#e8421a; --text:#f0f0f0; --muted:#888; }
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body { background:var(--bg); color:var(--text); font-family:'Helvetica Neue',Arial,sans-serif; min-height:100vh; }
+    header { border-bottom:1px solid var(--border); padding:1.5rem 2.5rem; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1rem; }
+    h1 { font-size:1.1rem; font-weight:700; }
+    a { color:var(--accent); text-decoration:none; }
+    main { max-width:980px; margin:0 auto; padding:2rem; }
+    .meta { color:var(--muted); font-size:0.85rem; margin-bottom:1rem; }
+    .panel { background:var(--surface); border:1px solid var(--border); border-radius:8px; padding:1.25rem; overflow:auto; }
+    pre { white-space:pre-wrap; word-break:break-word; line-height:1.5; font-size:0.95rem; }
+    .error { color:#ff8f8f; }
+  </style>
+</head>
+<body>
+<header>
+  <h1 id="title">Course Content</h1>
+  <a href="index.html">← All Weeks</a>
+</header>
+<main>
+  <p class="meta" id="path-meta"></p>
+  <div class="panel"><pre id="content">Loading…</pre></div>
+</main>
+<script>
+  const pathParam = new URLSearchParams(window.location.search).get('path') || '';
+  const allowed = /^Week-\d{2}\/(In-Class|Homework|Resources)\/README\.md$/;
+  const titleEl = document.getElementById('title');
+  const metaEl = document.getElementById('path-meta');
+  const contentEl = document.getElementById('content');
+
+  if (!allowed.test(pathParam)) {
+    titleEl.textContent = 'Invalid Content Path';
+    metaEl.textContent = 'Expected a weekly README path.';
+    contentEl.textContent = 'The requested file path is invalid.';
+    contentEl.classList.add('error');
+  } else {
+    titleEl.textContent = pathParam.replace('/README.md', '').replace('/', ' · ');
+    metaEl.textContent = pathParam;
+
+    fetch(pathParam)
+      .then((res) => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.text();
+      })
+      .then((text) => {
+        contentEl.textContent = text;
+      })
+      .catch((err) => {
+        contentEl.textContent = `Unable to load content: ${err.message}`;
+        contentEl.classList.add('error');
+      });
+  }
+</script>
+</body>
+</html>
